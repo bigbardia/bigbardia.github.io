@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pashiz Api</title>
+</head>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+</style>
+
+<body>
+
+
+    <div id = "all_names">
+
+    </div>
+
+    <h2>Enter Token:</h2>
+    <input type="text" id="token">
+
+
+
+    <h1>Set Pashiz</h1>
+
+    <form>
+        <label for="set name">Enter name</label>
+        <input type="text"  id="set name">
+        <label for="set number">Enter number to set</label>
+        <input type="number" id="set number">
+        <button type="button" id="set" >Set Pashiz</button>
+    </form>
+
+    <h1>Add Pashiz</h1>
+    <form name="add Pashiz">
+        <label for="add name">Enter name</label>
+        <input type="text"  id="add name">
+        <label for="add number">Enter number to set</label>
+        <input type="number" id="add number">
+        <button type="button" id="add">Add Pashiz</button>
+    </form>
+
+    <h1>Subtract Pashiz</h1>
+    <form name="subtract Pashiz">
+        <label for="subtract name">Enter name</label>
+        <input type="text"  id="subtract name">
+        <label for="subtract number">Enter number to set</label>
+        <input type="number" id="subtract number">
+        <button type="button" id="subtract">subtract Pashiz</button>
+    </form>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        let all_enpoint = "https://pashizapi.pythonanywhere.com/api/all/";
+        $(document).ready(function(){
+            
+            $.ajax({
+                type : "get",
+                "url" : all_enpoint,
+                success : function(response){
+                    for (let i = 0; i<27; i++){
+                        let name = response[i]["name"];
+                        let pashiz = response[i]["pashiz"];
+                        $("#all_names").append(
+                            `<p>${name} : ${pashiz}</p>`
+                        );
+                    }
+                }
+            });
+
+        });
+
+        $("#set").click(function(){
+            let name = document.getElementById("set name").value;
+            let pashiz = document.getElementById("set number").value
+
+            set_endpoint = `https://pashizapi.pythonanywhere.com/api/all/${name}/set/${pashiz}`
+            
+            $.ajax({
+                type : "post",
+                url : set_endpoint,
+                data : {
+                    "token" : document.getElementById("token").value
+                },
+                success : function(response){
+                    location.reload();
+                }
+            })
+            
+        });
+
+        $("#add").click(function(){
+            let name = document.getElementById("add name").value;
+            let pashiz = document.getElementById("add number").value
+
+            add_endpoint = `https://pashizapi.pythonanywhere.com/api/all/${name}/add/${pashiz}`
+            
+            $.ajax({
+                type : "post",
+                url : add_endpoint,
+                data : {
+                    "token" : document.getElementById("token").value
+                },
+                success : function(response){
+                    location.reload();
+                }
+            })
+            
+        });
+
+        $("#subtract").click(function(){
+            let name = document.getElementById("subtract name").value;
+            let pashiz = document.getElementById("subtract number").value
+
+            subtract_endpoint = `https://pashizapi.pythonanywhere.com/api/all/${name}/subtract/${pashiz}`
+            
+            $.ajax({
+                type : "post",
+                url : subtract_endpoint,
+                data : {
+                    "token" : document.getElementById("token").value
+                },
+                success : function(response){
+                    location.reload();
+                }
+            })
+            
+        });
+
+
+    </script>
+    
+</body>
+</html>
